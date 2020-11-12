@@ -1,6 +1,5 @@
 package app
 
-import app.app.apiRoute
 import app.config.configureAuth
 import app.config.configureDb
 import app.services.bindServices
@@ -39,7 +38,7 @@ fun Application.module(testing: Boolean = false) {
     }
 
     routing {
-        apiRoute()
+        apiV1Routes()
     }
 }
 
