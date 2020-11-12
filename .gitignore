@@ -8,3 +8,6 @@
 
 resources/application.conf
 resources/dbconfig.properties
+
+!resources/template.application.conf
+!resources/template.dbconfig.properties
