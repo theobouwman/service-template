@@ -2,7 +2,11 @@
 
 This is a minimal template for a microserive written in Kotlin with Ktor
 
-## Getting started
+## Prerequisites
+- PostgreSQL database
 
+## Getting started
 - clone repo
-- changge
+- rename `template.application.conf` and `template.dbconfig.properties` to `application.conf` and `dbconfig.properties`
+- install gradle dependencies
+- run application
