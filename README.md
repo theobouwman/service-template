@@ -2,6 +2,12 @@
 
 This is a minimal template for a microserive written in Kotlin with Ktor
 
+## Features
+- Ktor as framework
+- MVC
+- Dependency Injection
+- External Services API
+
 ## Prerequisites
 - PostgreSQL database
 
