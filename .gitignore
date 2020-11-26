@@ -8,3 +8,4 @@
 
 resources/application.conf
 resources/dbconfig.properties
+resources/logs/**
