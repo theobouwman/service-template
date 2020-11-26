@@ -8,6 +8,9 @@ This is a minimal template for a microserive written in Kotlin with Ktor
 - Dependency Injection
 - External Services API
 - Health check
+- Logging
+- Metrics
+- Prometheus & Grafana (docker compose)
 
 ## Prerequisites
 - PostgreSQL database
