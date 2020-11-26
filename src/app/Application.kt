@@ -38,6 +38,7 @@ fun Application.module(testing: Boolean = false) {
     }
 
     routing {
+        commonRoutes()
         apiV1Routes()
     }
 }
