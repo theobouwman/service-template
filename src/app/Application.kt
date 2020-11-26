@@ -19,22 +19,37 @@ import io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics
 import io.micrometer.core.instrument.binder.system.FileDescriptorMetrics
 import io.micrometer.core.instrument.binder.system.ProcessorMetrics
 import io.micrometer.core.instrument.binder.system.UptimeMetrics
-import io.micrometer.prometheus.PrometheusConfig
 import io.micrometer.prometheus.PrometheusMeterRegistry
 import org.jetbrains.exposed.dao.exceptions.EntityNotFoundException
+import org.kodein.di.instance
 import org.kodein.di.ktor.di
 
 @KtorExperimentalAPI
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
+
+    /**
+     * Dependency Injection
+     */
+    di {
+        bindServices(this@module)
+    }
+
+    /**
+     * Configuration
+     */
     configureDb()
     configureAuth()
 
+    /**
+     * Feature installation & configuration
+     */
     install(DefaultHeaders)
     install(CallLogging)
     install(MicrometerMetrics) {
-        registry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
+        val prometheusRegistry by di().instance<PrometheusMeterRegistry>()
+        registry = prometheusRegistry
         meterBinders = listOf(
             ClassLoaderMetrics(),
             JvmMemoryMetrics(),
@@ -55,10 +70,10 @@ fun Application.module(testing: Boolean = false) {
             configure(SerializationFeature.INDENT_OUTPUT, true)
         }
     }
-    di {
-        bindServices(this@module)
-    }
 
+    /**
+     * Routing
+     */
     routing {
         healthCheckRoute()
         metrics()
