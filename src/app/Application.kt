@@ -34,7 +34,7 @@ fun Application.module(testing: Boolean = false) {
         }
     }
     di {
-        bindServices()
+        bindServices(this@module)
     }
 
     routing {

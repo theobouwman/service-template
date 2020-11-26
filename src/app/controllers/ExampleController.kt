@@ -18,8 +18,12 @@ class ExampleController(application: Application): Controller(application) {
 
     override fun Route.getRoutes() {
         get("/") {
+            val exampleResponse = exampleService.getFromAPI()
             val examples = exampleService.getAllExamples()
-            call.respond(Response(200, data = examples))
+            call.respond(Response(200, data = mapOf(
+                "examples" to examples,
+                "exampleAPICallResponse" to exampleResponse
+            )))
         }
         post("/") {
             val bookRequest = call.receive<Example>()
