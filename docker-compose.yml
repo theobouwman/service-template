@@ -1,0 +1,28 @@
+version: '2.1'
+services:
+  db:
+    image: postgres:11
+    restart: always
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+
+  prometheus:
+    image: prom/prometheus
+    restart: always
+    ports:
+      - "3570:3570"
+    volumes:
+      - ./monitoring:/etc/prometheus/
+
+  grafana:
+    image: grafana/grafana:5.1.0
+    ports:
+      - 3000:3000
+    user: "104"
+    volumes:
+      - ./monitoring/grafana:/var/lib/grafana
+      - prometheus

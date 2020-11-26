@@ -11,6 +11,16 @@ import io.ktor.jackson.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
+import io.ktor.metrics.micrometer.*
+import io.micrometer.core.instrument.binder.jvm.ClassLoaderMetrics
+import io.micrometer.core.instrument.binder.jvm.JvmGcMetrics
+import io.micrometer.core.instrument.binder.jvm.JvmMemoryMetrics
+import io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics
+import io.micrometer.core.instrument.binder.system.FileDescriptorMetrics
+import io.micrometer.core.instrument.binder.system.ProcessorMetrics
+import io.micrometer.core.instrument.binder.system.UptimeMetrics
+import io.micrometer.prometheus.PrometheusConfig
+import io.micrometer.prometheus.PrometheusMeterRegistry
 import org.jetbrains.exposed.dao.exceptions.EntityNotFoundException
 import org.kodein.di.ktor.di
 
@@ -23,6 +33,18 @@ fun Application.module(testing: Boolean = false) {
 
     install(DefaultHeaders)
     install(CallLogging)
+    install(MicrometerMetrics) {
+        registry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
+        meterBinders = listOf(
+            ClassLoaderMetrics(),
+            JvmMemoryMetrics(),
+            JvmGcMetrics(),
+            ProcessorMetrics(),
+            JvmThreadMetrics(),
+            FileDescriptorMetrics(),
+            UptimeMetrics()
+        )
+    }
     install(StatusPages) {
         exception<EntityNotFoundException> {
             call.respond(HttpStatusCode.NotFound)
@@ -38,7 +60,8 @@ fun Application.module(testing: Boolean = false) {
     }
 
     routing {
-        commonRoutes()
+        healthCheckRoute()
+        metrics()
         apiV1Routes()
     }
 }

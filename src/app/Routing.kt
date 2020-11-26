@@ -4,11 +4,24 @@ import app.controllers.ExampleController
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import io.micrometer.prometheus.PrometheusMeterRegistry
+import org.kodein.di.instance
 import org.kodein.di.ktor.controller.controller
+import org.kodein.di.ktor.di
 
-fun Routing.commonRoutes() {
+fun Routing.healthCheckRoute() {
     get("/health") {
         call.respondText("OK")
+    }
+}
+
+fun Routing.metrics() {
+    val registry: PrometheusMeterRegistry by di().instance()
+
+    get("/metrics") {
+        call.respondText {
+            registry.scrape()
+        }
     }
 }
 
