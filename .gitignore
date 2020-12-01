@@ -2,6 +2,7 @@
 /.idea
 /out
 /build
+/bin
 *.iml
 *.ipr
 *.iws
@@ -9,4 +10,3 @@
 resources/application.conf
 resources/dbconfig.properties
 resources/logs/**
-monitoring/

@@ -10,13 +10,12 @@ This is a minimal template for a microserive written in Kotlin with Ktor
 - Health check
 - Logging
 - Metrics
-- Prometheus & Grafana (docker compose)
-
-## Prerequisites
-- PostgreSQL database
+- Docker Compose - Postgres DB
 
 ## Getting started
 - clone repo
-- rename `template.application.conf` and `template.dbconfig.properties` to `application.conf` and `dbconfig.properties`
+- rename 
+    - `template.application.conf` -> `application.conf`
+    - `template.dbconfig.properties` -> `dbconfig.properties`
 - install gradle dependencies
 - run application
