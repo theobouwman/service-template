@@ -1,12 +1,12 @@
 package app.clients
 
 import io.ktor.client.*
-import io.ktor.client.engine.apache.*
+import io.ktor.client.engine.cio.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.logging.*
 
 val HttpClient by lazy {
-    HttpClient(Apache) {
+    HttpClient(CIO) {
         install(JsonFeature) {
             serializer = JacksonSerializer()
         }
